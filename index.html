@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ligando o Campo à Cidade</title>
+  <style>
+    /* Paleta de verdes */
+    :root {
+      --verde-claro: #c7f0b3;
+      --verde-medio: #4caf50;
+      --verde-escuro: #2e7d32;
+      --verde-suave: #e5f7d1;
+      --branco: #ffffff;
+      --cinza-claro: #f4f4f4;
+      --cinza-escuro: #333333;
+      --sombra-leve: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--cinza-claro);
+      color: var(--verde-escuro);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: var(--verde-medio);
+      color: var(--branco);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 6px var(--sombra-leve);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.4rem;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+
+    header p {
+      font-weight: 300;
+      font-style: italic;
+      margin-top: 0.3rem;
+      font-size: 1.1rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background: var(--verde-escuro);
+      box-shadow: inset 0 -3px 6px rgba(0,0,0,0.15);
+    }
+
+    nav a {
+      color: var(--branco);
+      text-decoration: none;
+      padding: 1rem 1.8rem;
+      display: inline-block;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      background: var(--verde-claro);
+      color: var(--verde-escuro);
+      outline: none;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 2rem auto 4rem auto;
+      padding: 0 1rem;
+      background: var(--branco);
+      box-shadow: 0 3px 12px var(--sombra-leve);
+      border-radius: 8px;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      color: var(--verde-medio);
+      margin-bottom: 1rem;
+      border-bottom: 3px solid var(--verde-claro);
+      padding-bottom: 0.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Accordion estilos */
+    .accordion-item {
+      border: 1px solid var(--verde-claro);
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 4px var(--sombra-leve);
+      transition: box-shadow 0.3s ease;
+      background: var(--verde-suave);
+    }
+
+    .accordion-item:hover {
+      box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+    }
+
+    .accordion-header {
+      background: var(--verde-medio);
+      color: var(--branco);
+      cursor: pointer;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      border-radius: 6px 6px 0 0;
+      transition: background 0.3s ease;
+    }
+
+    .accordion-header:hover,
+    .accordion-header:focus {
+      background: var(--verde-escuro);
+      outline: none;
+    }
+
+    .accordion-content {
+      padding: 1rem 1.5rem;
+      background: var(--branco);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.2s ease;
+      font-size: 1rem;
+      color: var(--cinza-escuro);
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 300px;
+      padding: 1rem 1.5rem;
+    }
+
+    /* Ícone accordion */
+    .accordion-header::after {
+      content: '+';
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+
+    .accordion-item.active .accordion-header::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+
+    /* Quiz Section */
+    .quiz {
+      background: var(--verde-suave);
+      padding: 1.5rem 1.8rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px var(--sombra-leve);
+      user-select: none;
+    }
+
+    .quiz h3 {
+      margin-top: 0;
+      font-weight: 700;
+      color: var(--verde-medio);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-question {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-options {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .quiz-options li {
+      margin-bottom: 0.8rem;
+    }
+
+    .quiz-options button {
+      background: var(--verde-medio);
+      color: var(--branco);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.25s ease;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    .quiz-options button:hover,
+    .quiz-options button:focus {
+      background: var(--verde-escuro);
+      outline: none;
+    }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--verde-claro);
+      min-height: 28px;
+      user-select: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--verde-escuro);
+      color: var(--branco);
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      nav a {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+      }
+      main {
+        margin: 1rem 0.5rem 3rem;
+        padding: 0 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ligando o Campo à Cidade</h1>
+    <p>Trazendo vida, recursos e cultura juntos</p>
+  </header>
+  <nav role="navigation" aria-label="Menu principal">
+    <a href="#conexao">Conexão</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="#desafios">Desafios</a>
+    <a href="#quiz">Teste seu conhecimento</a>
+  </nav>
+  <main>
+    <section id="conexao" tabindex="0">
+      <h2>A Conexão Entre Campo e Cidade</h2>
+      <p>
+        O vínculo entre o campo e a cidade é a base que sustenta a vida moderna. Produtos agrícolas, matérias-primas e cultura fluem diariamente para garantir o equilíbrio econômico e social.
+      </p>
+      <p>
+        A urbanização crescente traz desafios, mas também oportunidades para inovar na forma como esses dois mundos coexistem e se complementam.
+      </p>
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false" aria-controls="content1" id="header1">Como o campo abastece a cidade?</button>
+        <div class="accordion-content" id="content1" role="region" aria-labelledby="header1">
+          <p>
+            O campo abastece a cidade com alimentos frescos, fibras naturais, energia renovável e recursos essenciais que sustentam o dia a dia urbano, permitindo uma vida saudável e dinâmica.
+          </p>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false" aria-controls="content2" id="header2">Qual a importância cultural dessa ligação?</button>
+        <div class="accordion-content" id="content2" role="region" aria-labelledby="header2">
+          <p>
+            Essa ligação preserva tradições, gastronomia, artesanato e histórias que enriquecem a cultura urbana com as raízes do campo, promovendo diversidade e identidade social.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="beneficios" tabindex="0">
+      <h2>Benefícios da Integração</h2>
+      <p>Quando cidade e campo trabalham em harmonia, os frutos são muitos:</p>
+      <ul>
+        <li>Alimentos mais frescos e saudáveis.</li>
+        <li>Estímulo à economia local e sustentável.</li>
+        <li>Inovação em tecnologia agrícola e urbana.</li>
+        <li>Preservação do meio ambiente e coexistência responsável.</li>
+      </ul>
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false" aria-controls="content3" id="header3">Exemplo prático: Feira Orgânica Local</button>
+        <div class="accordion-content" id="content3" role="region" aria-labelledby="header3">
+          <p>
+            Feiras orgânicas promovem o mercado direto entre o produtor rural e os moradores urbanos, reduzindo intermediários e apoiando a agricultura sustentável.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="desafios" tabindex="0">
+      <h2>Desafios a Superar</h2>
+      <p>
+        Apesar da importância, existem desafios como:
+      </p>
+      <ul>
+        <li>Logística de transporte e distribuição eficiente.</li>
+        <li>Desigualdade no acesso a mercados e tecnologias.</li>
+        <li>Preservação dos recursos naturais frente à expansão urbana.</li>
+      </ul>
+      <div class="accordion-item">
+        <button class="accordion-header" aria-expanded="false" aria-controls="content4" id="header4">Como diminuir os impactos ambientais?</button>
+        <div class="accordion-content" id="content4" role="region" aria-labelledby="header4">
+          <p>
+            Investindo em tecnologias limpas, práticas agrícolas regenerativas e planejamento urbano inteligente que priorize o equilíbrio ecológico.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" tabindex="0" class="quiz">
+      <h3>Teste seu conhecimento</h3>
+      <div class="quiz-question" id="quiz-question">Qual é um dos principais benefícios da integração entre campo e cidade?</div>
+      <ul class="quiz-options" role="list" aria-labelledby="quiz-question">
+        <li><button data-correct="false" type="button">Maior poluição urbana</button></li>
+        <li><button data-correct="true" type="button">Alimentos mais frescos e saudáveis</button></li>
+        <li><button data-correct="false" type="button">Isolamento cultural</button></li>
+        <li><button data-correct="false" type="button">Redução da agricultura local</button></li>
+      </ul>
+      <div class="quiz-feedback" role="alert" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Ligando o Campo à Cidade. Leonardo Estevam.
+  </footer>
+
+  <script>
+    // Accordion functionality
+    document.querySelectorAll('.accordion-header').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        
+        if(expanded) {
+          button.setAttribute('aria-expanded', 'false');
+          item.classList.remove('active');
+        } else {
+          button.setAttribute('aria-expanded', 'true');
+          item.classList.add('active');
+        }
+      });
+
+      button.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          button.click();
+        }
+      });
+    });
+
+    // Quiz functionality
+    const options = document.querySelectorAll('.quiz-options button');
+    const feedback = document.querySelector('.quiz-feedback');
+
+    options.forEach(button => {
+      button.addEventListener('click', () => {
+        // Disable all buttons
+        options.forEach(btn => btn.disabled = true);
+        // Check correctness
+        const isCorrect = button.dataset.correct === 'true';
+        if (isCorrect) {
+          feedback.textContent = 'Parabéns! Você acertou!';
+          feedback.style.color = 'var(--verde-escuro)';
+        } else {
+          feedback.textContent = 'Resposta incorreta. Tente novamente!';
+          feedback.style.color = 'crimson';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
